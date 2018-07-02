@@ -1,6 +1,7 @@
-# my_malloc
+# Malloc
 Wrote Malloc in C for CS2110 
 
+## my_malloc()
 1. Figure out what size block you need to satisfy the user’s request by adding TOTAL METADATA SIZE to the requested block body size to include the size of the metadata and the tail canary, that will be the real block size we need. (Note: if this size in bytes is over SBRK SIZE, set the error SINGLE REQUEST TOO LARGE and return NULL. If the request size is 0, then mark NO ERROR and return NULL).
 2. Now that we have the size we care about, we need to iterate through our freelist to find a block that best fits. Best fit is defined as a block that is exactly the same size, or the smallest block big enough to split and house a new block (MIN BLOCK SIZE is defined for you). If the block is not big enough to split, it is not a valid block and cannot be used.
 (a) If the block is exactly the same size, you can simply remove it from the both the address list and size list, set the canaries, and return a pointer to the body of the block.
@@ -21,11 +22,11 @@ Do not directly change the freelist or blocks in my realloc() — leave that to 
 Your my realloc() implementation must have the same features as the realloc() function in the standard library. For details on what realloc() does and edge cases involved in its implementation, read the realloc manual page by opening a terminal in Ubuntu and typing man realloc.
 If my malloc() returns NULL, do not set any error codes (as my malloc will have taken care of that) and just return NULL directly.
 
-#my_calloc()
+## my_calloc()
 You are to write your own version of calloc that will use your my malloc() function. my calloc() should accept two parameters, size t nmemb and size t size. It will allocate a region of memory for nmemb number of elements, each of size size, zero out the entire block, and return a pointer to that block.
 If my malloc() returns NULL, do not set any error codes (as my malloc() will have taken care of that) and just return NULL directly.
 
-#Error Codes
+## Error Codes
 For this assignment, you will also need to handle cases where users of your malloc do improper things with their code. For instance, if a user asks for 12 gigabytes of memory, this will clearly be too much for your 8 kilobyte heap. It is important to let the user know what they are doing wrong. This is where the enum in
 1Even though we don’t extend or shrink blocks in place in this homework, keep in mind that real-world implementations (which are not written in a panic right before finals) very well could.
                             10
@@ -38,3 +39,14 @@ NO ERROR: set whenever my calloc(), my malloc(), my realloc(), and my free() com
 OUT OF MEMORY: set whenever the user’s request cannot be met because there’s not enough heap space.
 SINGLE REQUEST TOO LARGE: set whenever the user’s requested size plus the total metadata size is beyond SBRK SIZE.
 CANARY CORRUPTED: set whenever either canary is corrupted in a block passed to free() or realloc().
+
+## Running Malloc 
+You can run the provided tests
+```
+make run-tests
+```
+Run gdb
+```
+make run-gdb
+```
+
